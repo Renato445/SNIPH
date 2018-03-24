@@ -103,8 +103,6 @@ def cipher(char_set, phrase, msg, N, R, C, offset):
     cipher_text = cipher_text[offset:] + cipher_text[0:offset]
     return cipher_text
 
-
-
 def decipher(char_set, phrase, msg, N, R, C):
     
     # Revert values to fit table dimensions and place in code string
@@ -128,7 +126,6 @@ def decipher(char_set, phrase, msg, N, R, C):
     for i in range(len(code) // 4):
         characters.append(code[4*i:4*(i+1)])
         
-    
     decoding = ''
     key = 0 # current index in passphrase
     for i in range(len(characters)):
@@ -137,7 +134,6 @@ def decipher(char_set, phrase, msg, N, R, C):
             # Same as in cipher above
             pos = char_set.index(phrase[key % len(phrase)]) % size 
             c = phrase[key % len(phrase)]
-            
             
             # Get coord
             row_loc = pos // C + 1
@@ -171,48 +167,45 @@ def decipher(char_set, phrase, msg, N, R, C):
         # -1 to go from pos to index
         decoding += shifted_set[char_pos - 1] 
         
-        
     return decoding # Return decoded message
     
 if len(sys.argv) == 1:
-    print('Welcome to Sniph Version 1.0.3:\n')
+    print('\n  :: SNIPH Version 1.0.3 ::\n')
     
-    N = 4 # cipher depth
-    inp = input('Input # of dimensions, N, for cipher (empty for default): ')
+    N = 4 # table depth
+    R = 0 # table rows
+    C = 0 # table columns
+    print('\nInput Table Dimensions')
+    R = input('Number of rows (empty for default): ')
+    if len(R) == 0: R = 3
+    else: R = int(R)
+    if R < 3: 
+        print('Value must be greater than or equal to 3. Defaulting to 3.\n')
+        R = 3
+    elif R > 10: 
+        print('Value must be less than or equal to 10. Defaulting to 10.\n')
+        R = 10
+        
+    C = input('Number of columns (empty for default): ')
+    if len(C) == 0: C = 3
+    else: C = int(C)
+    if C < 3: 
+        print('Value must be greater than or equal to 3. Defaulting to 3.\n')
+        C = 3
+    elif C > 10: 
+        print('Value must be less than or equal to 10. Defaulting to 10.\n')
+        C = 10
+        
+    inp = input('Number of seated dimensions (empty for default): ')
     if len(inp) == 0:
         N = 4
     else:
         N = int(inp)
     if N < 4:
         N = 4
-        
-    R = 0 # table rows
-    C = 0 # table columns
-    print('\nEnter dimensions of cipher table')
-    R = input('# of rows (empty for default): ')
-    if len(R) == 0: R = 3
-    else: R = int(R)
-    if R < 3: 
-        print('Value must be greater than or equal to 3. Defaulting to 3\n')
-        R = 3
-    elif R > 10: 
-        print('Value must be less than or equal to 10. Defaulting to 10\n')
-        R = 10
-        
-    C = input('# of columns (empty for default): ')
-    if len(C) == 0: C = 3
-    else: C = int(C)
-    if C < 3: 
-        print('Value must be greater than or equal to 3. Defaulting to 3\n')
-        C = 3
-    elif C > 10: 
-        print('Value must be less than or equal to 10. Defaulting to 10\n')
-        C = 10
-    
     
     # # Verify input was parsed correctly
     # print('Depth = {} \nTable size = {} x {}'.format(N, R, C))
-    
     
     size = R * C # table size, area of the table
     
@@ -225,33 +218,30 @@ if len(sys.argv) == 1:
         char_set += char_set
     char_set = char_set[0:pow(size,2)]
     
-    
-    # phrase = passphrase
-    phrase = ''
-    phrase = input('\nEnter pass phrase: ')
-    while len(phrase) == 0: # Check phrase
-        print('Hey dummy, you need a pass phrase!\n')
-        phrase = input('Enter pass phrase: ')
-        
-    phrase = phrase.upper()
-    
     # offset shifts output
-    off_in = input('\nEnter offset variable to shift text (empty = 0): ')
+    off_in = input('Offset variable to shift text (empty = 0): ')
     offset = 0
     if len(off_in) != 0: offset = int(off_in)
     
+    # phrase = passphrase
+    phrase = ''
+    phrase = input('\nEnter passphrase: ')
+    while len(phrase) == 0: # Check phrase
+        phrase = input('You must enter a passphrase: ')
+        
+    phrase = phrase.upper()
     
-    flag = input('\nCipher (C) or decipher (D)?: ')
+    flag = input('Cipher (C) or Decipher (D): ')
     if not(flag == 'd' or flag == 'D' or flag == 'c' or flag == 'C'):
         flag = ''
     while len(flag) == 0: # Check option
         print('I need to know if I\'m ciphering or deciphering.')
-        flag = input('\nCipher (c) or decipher (d)?: ')
-        if not(flag == 'd' or flag == 'c'):
+        flag = input('Cipher (C) or Decipher (D)?: ')
+        if not(flag == 'd' or flag == 'D' or flag == 'c' or flag == 'C'):
             flag = ''
     flag = flag.lower()
     
-    # Message is either plain-text or ciphertext
+    # Message is either plain-text or ciphertext.
     msg = ''
     if flag == 'd':
         msg = input('\nEnter cipher text:\n')
@@ -265,18 +255,15 @@ if len(sys.argv) == 1:
             msg = input('Enter text to be ciphered:\n')
     msg = msg.upper();
     
-    
     if flag == 'c':
         encoding = cipher(char_set, phrase, msg, N, R, C, offset)
-        print('\nResult: ', encoding)
+        print('\nResult:\n', encoding)
         
     elif flag == 'd':
         msg = msg[-1*offset:] + msg[0:-1*offset] # Reverse offset before decoding
         decoded = decipher(char_set, phrase, msg, N, R, C)
-        print('\nResult: ', decoded)
-    
+        print('\nResult:\n', decoded)
     
 else:
     if '-h' in sys.argv:
         print('help')
-        
