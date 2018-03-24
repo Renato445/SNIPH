@@ -1,5 +1,5 @@
 #!/bin/python
-# Sniph test version.
+# Sniph test version 0.4
 
 import sys, random
 
@@ -170,7 +170,7 @@ def decipher(char_set, phrase, msg, N, R, C):
     return decoding # Return decoded message
     
 if len(sys.argv) == 1:
-    print('\n  :: SNIPH Version 1.0.4 ::\n')
+    print('\n  :: SNIPH Version 0.0.4 ::\n')
     
     N = 4 # table depth
     R = 0 # table rows
