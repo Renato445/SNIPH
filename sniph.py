@@ -1,5 +1,5 @@
 #!/bin/python
-# Sniph test version 0.4
+# Sniph test version 0.5
 
 import sys, random
 
@@ -170,28 +170,28 @@ def decipher(char_set, phrase, msg, N, R, C):
     return decoding # Return decoded message
     
 if len(sys.argv) == 1:
-    print('\n  :: SNIPH Version 0.0.4 ::\n')
+    print('\n  :: SNIPH Version 0.5 ::\n')
     
     N = 4 # table depth
     R = 0 # table rows
     C = 0 # table columns
     print('Input Table Dimensions')
     R = input('Number of rows (empty for default): ')
-    if len(R) == 0: R = 3
+    if len(R) == 0: R = 4
     else: R = int(R)
-    if R < 3: 
-        print('Value must be greater than or equal to 3. Defaulting to 3.\n')
-        R = 3
+    if R < 4: 
+        print('Value must be greater than or equal to 4. Defaulting to 4.\n')
+        R = 4
     elif R > 10: 
         print('Value must be less than or equal to 10. Defaulting to 10.\n')
         R = 10
         
     C = input('Number of columns (empty for default): ')
-    if len(C) == 0: C = 3
+    if len(C) == 0: C = 4
     else: C = int(C)
-    if C < 3: 
-        print('Value must be greater than or equal to 3. Defaulting to 3.\n')
-        C = 3
+    if C < 4: 
+        print('Value must be greater than or equal to 4. Defaulting to 4.\n')
+        C = 4
     elif C > 10: 
         print('Value must be less than or equal to 10. Defaulting to 10.\n')
         C = 10
@@ -209,7 +209,7 @@ if len(sys.argv) == 1:
     
     size = R * C # table size, area of the table
     
-    char_set = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ.,?!:;\'\"/\\|<>+-=(){}[]`'
+    char_set = ('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,?!:;\'\"/\\|<>+-=(){}[]`'
     '~@#$%^&*1234567890 \n')
     # repeat char set to fill (R*C)^2 spaces
     # i.e 3x3 = 9 tables slots with 9 tables holding characters in last level
@@ -253,17 +253,17 @@ if len(sys.argv) == 1:
         while len(msg) == 0:
             print('Text cannot be empty')
             msg = input('Enter plaintext:\n')
-    msg = msg.upper();
+    # msg = msg.upper();
     
     if flag == 'c':
         encoding = cipher(char_set, phrase, msg, N, R, C, offset)
-        print('\nResult:\n',encoding)
+        print('\nResult:\n', encoding)
         
     elif flag == 'd':
         msg = msg[-1*offset:] + msg[0:-1*offset] # Reverse offset before decoding
         decoded = decipher(char_set, phrase, msg, N, R, C)
-        print('\nResult:\n',decoded)
+        print('\nResult:\n', decoded)
     
 else:
-    if '-h' in sys.argv:
-        print('help')
+    if '--help' in sys.argv:
+        print('For more information go to: https://snerx.com/sniph')
