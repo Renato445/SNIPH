@@ -170,7 +170,7 @@ def decipher(char_set, phrase, msg, N, R, C):
     return decoding # Return decoded message
     
 if len(sys.argv) == 1:
-    print('\n  :: SNIPH Version 1.0.3 ::\n')
+    print('\n  :: SNIPH Version 1.0.4 ::\n')
     
     N = 4 # table depth
     R = 0 # table rows
@@ -244,25 +244,25 @@ if len(sys.argv) == 1:
     # Message is either plain-text or ciphertext.
     msg = ''
     if flag == 'd':
-        msg = input('\nEnter cipher text:\n')
+        msg = input('Enter ciphertext:\n')
         while len(msg) == 0:
             print('Text cannot be empty')
-            msg = input('Enter cipher text:\n')
+            msg = input('Enter ciphertext:\n')
     else:
-        msg = input('\nEnter text to be ciphered:\n')
+        msg = input('Enter plaintext:\n')
         while len(msg) == 0:
             print('Text cannot be empty')
-            msg = input('Enter text to be ciphered:\n')
+            msg = input('Enter plaintext:\n')
     msg = msg.upper();
     
     if flag == 'c':
         encoding = cipher(char_set, phrase, msg, N, R, C, offset)
-        print('\nResult:\n', encoding)
+        print('\nResult:\n',encoding)
         
     elif flag == 'd':
         msg = msg[-1*offset:] + msg[0:-1*offset] # Reverse offset before decoding
         decoded = decipher(char_set, phrase, msg, N, R, C)
-        print('\nResult:\n', decoded)
+        print('\nResult:\n',decoded)
     
 else:
     if '-h' in sys.argv:
