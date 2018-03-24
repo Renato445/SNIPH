@@ -175,7 +175,7 @@ if len(sys.argv) == 1:
     N = 4 # table depth
     R = 0 # table rows
     C = 0 # table columns
-    print('\nInput Table Dimensions')
+    print('Input Table Dimensions')
     R = input('Number of rows (empty for default): ')
     if len(R) == 0: R = 3
     else: R = int(R)
